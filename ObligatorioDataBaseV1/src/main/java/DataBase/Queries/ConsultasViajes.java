@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataBase.querys;
+package DataBase.Queries;
 
 /**
  *
  * @author USER
  */
-public class ConsultasUsuarios {
-    
-    
+public class ConsultasViajes {
     
 }
