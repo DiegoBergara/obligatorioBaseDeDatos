@@ -11,4 +11,54 @@ package Data.Classes;
  */
 public class Usuario {
     
+    public String mail;
+    public String password;
+    public String nombre;
+    public String apellido;
+    public int valoracion;
+    public boolean conductor;
+    public String vehiculo;
+    
+    public Usuario(String mail, String password, String nombre, String apellido,  boolean conductor, String vehiculo) {
+        this.mail = mail;
+        this.password = password;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.valoracion = 0;
+        this.conductor = conductor;
+        this.vehiculo = vehiculo;
+    }
+    
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public void setValoracion(int valoracion) {
+        this.valoracion = valoracion;
+    }
+
+    public void setConductor(boolean conductor) {
+        this.conductor = conductor;
+    }
+
+    public void setVehiculo(String vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+
+    
+    
+    
 }

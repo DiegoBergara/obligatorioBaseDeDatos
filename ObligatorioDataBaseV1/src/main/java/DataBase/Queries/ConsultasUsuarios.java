@@ -6,6 +6,7 @@
 package DataBase.Queries;
 
 
+import Data.Classes.Usuario;
  import DataBase.Connection.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,25 +17,30 @@ import java.sql.SQLException;
  */
 public class ConsultasUsuarios {
 
-    public boolean insertarUsuario(String mail, String pass, String nombre, String apellido, boolean conductor, String vehiculo) {
+    public ConsultasUsuarios() {
+    }
+    
+    
+
+    public Usuario insertarUsuario(Usuario user) {
         Connection connection = ConnectionManager.getConnection();
         try {
 
             PreparedStatement statement = connection.prepareStatement("insert into usuarios values(?,?,?,?,?,?,?)");
-            statement.setString(1, mail);
-            statement.setString(2, pass);
-            statement.setString(3, nombre);
-            statement.setString(4, apellido);
-            statement.setInt(5, 0);
-            statement.setBoolean(6, conductor);
-            statement.setString(7, vehiculo);
+            statement.setString(1, user.mail);
+            statement.setString(2, user.password);
+            statement.setString(3, user.nombre);
+            statement.setString(4, user.apellido);
+            statement.setInt(5, user.valoracion);
+            statement.setBoolean(6, user.conductor);
+            statement.setString(7, user.vehiculo);
             statement.executeUpdate();
 
-            return true;
+            return user;
 
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
-            return false;
+            return null;
         } finally {
             ConnectionManager.closeConnection(connection);
         }
