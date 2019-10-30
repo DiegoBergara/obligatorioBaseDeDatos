@@ -20,9 +20,7 @@ public class ConsultasUsuarios {
     public ConsultasUsuarios() {
     }
     
-    
-
-    public boolean insertarUsuario(Usuario user) {
+    public boolean insertar(Usuario user) {
         Connection connection = ConnectionManager.getConnection();
         try {
 

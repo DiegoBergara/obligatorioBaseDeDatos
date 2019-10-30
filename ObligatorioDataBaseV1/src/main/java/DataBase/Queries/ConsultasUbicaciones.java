@@ -19,7 +19,7 @@ import java.sql.Statement;
  */
 public class ConsultasUbicaciones {
     
-     public Ubicacion insertarUsuario(Ubicacion ubicacion) {
+     public Ubicacion insertar(Ubicacion ubicacion) {
         Connection connection = ConnectionManager.getConnection();
         try {
 
