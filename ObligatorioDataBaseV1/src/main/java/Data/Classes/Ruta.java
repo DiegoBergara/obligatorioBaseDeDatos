@@ -11,4 +11,8 @@ package Data.Classes;
  */
 public class Ruta {
     
+    public int idRuta;
+    public int origen;
+    public int destino;
+    
 }
