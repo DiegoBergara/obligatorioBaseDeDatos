@@ -22,7 +22,7 @@ public class ConsultasUsuarios {
     
     
 
-    public Usuario insertarUsuario(Usuario user) {
+    public boolean insertarUsuario(Usuario user) {
         Connection connection = ConnectionManager.getConnection();
         try {
 
@@ -36,11 +36,11 @@ public class ConsultasUsuarios {
             statement.setString(7, user.vehiculo);
             statement.executeUpdate();
 
-            return user;
+            return true;
 
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
-            return null;
+            return false;
         } finally {
             ConnectionManager.closeConnection(connection);
         }

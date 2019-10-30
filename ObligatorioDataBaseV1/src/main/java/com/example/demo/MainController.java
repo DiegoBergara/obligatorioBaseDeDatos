@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Service.Controller;
+package com.example.demo;
 
 import Data.Classes.Usuario;
 import DataBase.Queries.ConsultasUsuarios;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     
     @PostMapping("/CrearUsuario")
-    public Usuario insertarUsuario(@RequestBody Map<String, String> body) {
+    public boolean insertarUsuario(@RequestBody Map<String, String> body) {
         //enter code here
         ConsultasUsuarios userManager = new ConsultasUsuarios();
         String mail = body.get("mail");
