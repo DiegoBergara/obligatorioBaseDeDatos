@@ -11,4 +11,25 @@ package Data.Classes;
  */
 public class Ubicacion {
     
+    public int idUbicacion;
+    public String calle;
+    public int nroPuerta;
+
+    public Ubicacion(String calle, int nroPuerta) {
+        this.calle = calle;
+        this.nroPuerta = nroPuerta;
+    }
+    
+    public void setIdUbicacion(int idUbicacion) {
+        this.idUbicacion = idUbicacion;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public void setNroPuerta(int nroPuerta) {
+        this.nroPuerta = nroPuerta;
+    }
+    
 }
