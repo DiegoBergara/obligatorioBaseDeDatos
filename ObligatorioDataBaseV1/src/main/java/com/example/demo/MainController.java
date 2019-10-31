@@ -7,6 +7,7 @@ package com.example.demo;
 
 import Data.Classes.Grupo;
 import Data.Classes.Parada;
+import Data.Classes.Participacion;
 import Data.Classes.RutaRaw;
 import Data.Classes.Usuario;
 import Data.Classes.Ubicacion;
@@ -14,6 +15,7 @@ import Data.Classes.Valoracion;
 import DataBase.Queries.ConsultasContactos;
 import DataBase.Queries.ConsultasGrupos;
 import DataBase.Queries.ConsultasParadas;
+import DataBase.Queries.ConsultasParticipaciones;
 import DataBase.Queries.ConsultasRutas;
 import DataBase.Queries.ConsultasUsuarios;
 import DataBase.Queries.ConsultasUbicaciones;
@@ -73,23 +75,8 @@ public class MainController {
         return manager.insertar(new RutaRaw(origen,destino));
     }
     
-//    @PostMapping("/CrearGrupoUsuario")
-//    public int insertarGrupoUsuario(@RequestBody Map<String, String> body) {
-//        System.out.println(body);
-//        ConsultasGrupos manager = new ConsultasGrupos();
-//        int idGrupo = Integer.parseInt(body.get("idOrigen"));
-//        String usuario = (body.get("idDestino"));
-//        return manager.insertar(new RutaRaw(origen,destino));
-//    }
-
-    /**
-     *
-     * @param body
-     * @return
-     */
-    
-        @PostMapping("/CrearValoracion")
-        public boolean insertarValoracion(@RequestBody Map<String, String> body) {
+    @PostMapping("/CrearValoracion")
+    public boolean insertarValoracion(@RequestBody Map<String, String> body) {
         //enter code here
         ConsultasValoraciones Manager = new ConsultasValoraciones();
         String calificador = body.get("calificador");
@@ -116,5 +103,17 @@ public class MainController {
         boolean isPrivate = Boolean.parseBoolean(body.get("isPrivate"));
         String mail_admin = body.get("admin");
         return manager.insertar(new Grupo(name, isPrivate, mail_admin));
+    }
+    
+    @PostMapping("/CrearParticipacion")
+    public boolean insertarParticipacion(@RequestBody Map<String, String> body) {
+        //enter code here
+        ConsultasParticipaciones manager = new ConsultasParticipaciones();
+        int parada = Integer.parseInt(body.get("parada"));
+        String solicitante = body.get("solicitante");
+        int viaje = Integer.parseInt(body.get("viaje"));
+        int estado_persona = Integer.parseInt(body.get("estado_persona"));
+        int estado_parada = Integer.parseInt(body.get("estado_parada"));
+        return manager.insertar(new Participacion(parada,solicitante,viaje,estado_persona,estado_parada) );
     }
 }
