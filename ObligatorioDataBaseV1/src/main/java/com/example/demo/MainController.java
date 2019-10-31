@@ -1,16 +1,18 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.example.demo;
 
+import Data.Classes.Grupo;
 import Data.Classes.Parada;
 import Data.Classes.RutaRaw;
 import Data.Classes.Usuario;
 import Data.Classes.Ubicacion;
 import Data.Classes.Valoracion;
 import DataBase.Queries.ConsultasContactos;
+import DataBase.Queries.ConsultasGrupos;
 import DataBase.Queries.ConsultasParadas;
 import DataBase.Queries.ConsultasRutas;
 import DataBase.Queries.ConsultasUsuarios;
@@ -104,5 +106,15 @@ public class MainController {
         String mail_self = body.get("mailSelf");
         String mail_contact = body.get("mailContacto");
         return manager.insertar(mail_self, mail_contact);
+    }
+    
+    @PostMapping("/CrearGrupo")
+    public int insertarGrupo(@RequestBody Map<String, String> body) {
+        System.out.println(body);
+        ConsultasGrupos manager = new ConsultasGrupos();
+        String name = body.get("groupName");
+        boolean isPrivate = Boolean.parseBoolean(body.get("isPrivate"));
+        String mail_admin = body.get("admin");
+        return manager.insertar(new Grupo(name, isPrivate, mail_admin));
     }
 }
