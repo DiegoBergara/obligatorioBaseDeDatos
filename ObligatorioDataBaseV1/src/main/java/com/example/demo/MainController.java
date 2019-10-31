@@ -10,6 +10,7 @@ import Data.Classes.RutaRaw;
 import Data.Classes.Usuario;
 import Data.Classes.Ubicacion;
 import Data.Classes.Valoracion;
+import DataBase.Queries.ConsultasContactos;
 import DataBase.Queries.ConsultasParadas;
 import DataBase.Queries.ConsultasRutas;
 import DataBase.Queries.ConsultasUsuarios;
@@ -94,5 +95,14 @@ public class MainController {
         int calificacion = Integer.parseInt(body.get("calificacion"));
         String observaciones = body.get("observaciones");
         return Manager.insertar(new Valoracion(calificador,calificado,calificacion,observaciones));
+    }
+        
+    @PostMapping("/AgregarContacto")
+    public boolean agregarContacto(@RequestBody Map<String, String> body) {
+        System.out.println(body);
+        ConsultasContactos manager = new ConsultasContactos();
+        String mail_self = body.get("mailSelf");
+        String mail_contact = body.get("mailContacto");
+        return manager.insertar(mail_self, mail_contact);
     }
 }
