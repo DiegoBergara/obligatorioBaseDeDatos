@@ -9,10 +9,12 @@ import Data.Classes.Parada;
 import Data.Classes.RutaRaw;
 import Data.Classes.Usuario;
 import Data.Classes.Ubicacion;
+import Data.Classes.Valoracion;
 import DataBase.Queries.ConsultasParadas;
 import DataBase.Queries.ConsultasRutas;
 import DataBase.Queries.ConsultasUsuarios;
 import DataBase.Queries.ConsultasUbicaciones;
+import DataBase.Queries.ConsultasValoraciones;
 import java.sql.Time;
 import java.time.LocalTime;
 import java.util.Map;
@@ -66,5 +68,31 @@ public class MainController {
         int origen = Integer.parseInt(body.get("idOrigen"));
         int destino = Integer.parseInt(body.get("idDestino"));
         return manager.insertar(new RutaRaw(origen,destino));
+    }
+    
+//    @PostMapping("/CrearGrupoUsuario")
+//    public int insertarGrupoUsuario(@RequestBody Map<String, String> body) {
+//        System.out.println(body);
+//        ConsultasGrupos manager = new ConsultasGrupos();
+//        int idGrupo = Integer.parseInt(body.get("idOrigen"));
+//        String usuario = (body.get("idDestino"));
+//        return manager.insertar(new RutaRaw(origen,destino));
+//    }
+
+    /**
+     *
+     * @param body
+     * @return
+     */
+    
+        @PostMapping("/CrearValoracion")
+        public boolean insertarValoracion(@RequestBody Map<String, String> body) {
+        //enter code here
+        ConsultasValoraciones Manager = new ConsultasValoraciones();
+        String calificador = body.get("calificador");
+        String calificado = body.get("calificado");
+        int calificacion = Integer.parseInt(body.get("calificacion"));
+        String observaciones = body.get("observaciones");
+        return Manager.insertar(new Valoracion(calificador,calificado,calificacion,observaciones));
     }
 }
