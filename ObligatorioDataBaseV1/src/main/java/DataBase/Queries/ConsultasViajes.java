@@ -66,4 +66,23 @@ public class ConsultasViajes {
             ConnectionManager.closeConnection(connection);
         }
     }
+    
+    
+    public boolean eliminarViaje(String id_viaje) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE public.viajes SET estado='-1' "
+                            + "WHERE (id_viaje='"+id_viaje+"');");
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return false;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
 }
