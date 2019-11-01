@@ -14,11 +14,13 @@ public class Grupo {
     public String name;
     public boolean priavate;
     public String admin;
+    public int estado;
     
-    public Grupo(String _name, boolean _private, String _admin){
+    public Grupo(String _name, boolean _private, String _admin,int estado){
         this.name = _name;
         this.priavate = _private;
         this.admin = _admin;
+        this.estado=estado;
     }
     
     public void setIdGroup(int idGroup) {

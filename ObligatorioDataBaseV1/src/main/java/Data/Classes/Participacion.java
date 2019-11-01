@@ -12,13 +12,12 @@ package Data.Classes;
 public class Participacion {
     public String solicitante;
     //public boolean estado_persona, estado_parada;
-    public int parada, viaje, estado_persona, estado_parada;
+    public int parada, viaje, estado;
 
-    public Participacion(int parada, String solicitante, int viaje, int estado_persona, int estado_parada) {
+    public Participacion(int parada, String solicitante, int viaje, int estado) {
         this.parada = parada;
         this.solicitante = solicitante;
-        this.estado_persona = estado_persona;
-        this.estado_parada = estado_parada;
+        this.estado = estado;
         this.viaje = viaje;
     }
 
@@ -47,20 +46,12 @@ public class Participacion {
     }
     
     
-    public int getEstado_persona() {
-        return estado_persona;
+    public int getEstado() {
+        return estado;
     }
 
-    public void setEstado_persona(int estado_persona) {
-        this.estado_persona = estado_persona;
-    }
-
-    public int getEstado_parada() {
-        return estado_parada;
-    }
-
-    public void setEstado_parada(int estado_parada) {
-        this.estado_parada = estado_parada;
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
     
 

@@ -18,8 +18,9 @@ public class Usuario {
     public int valoracion;
     public boolean conductor;
     public String vehiculo;
+    public int estado;
     
-    public Usuario(String mail, String password, String nombre, String apellido,  boolean conductor, String vehiculo) {
+    public Usuario(String mail, String password, String nombre, String apellido,  boolean conductor, String vehiculo, int estado) {
         this.mail = mail;
         this.password = password;
         this.nombre = nombre;
@@ -27,6 +28,7 @@ public class Usuario {
         this.valoracion = 0;
         this.conductor = conductor;
         this.vehiculo = vehiculo;
+        this.estado=estado;
     }
     
     public void setMail(String mail) {
@@ -55,6 +57,10 @@ public class Usuario {
 
     public void setVehiculo(String vehiculo) {
         this.vehiculo = vehiculo;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
 

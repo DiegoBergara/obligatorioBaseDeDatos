@@ -22,13 +22,13 @@ public class ConsultasParticipaciones {
         Connection connection = ConnectionManager.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "insert into participaciones(parada, solicitante, viaje, estado_persona, estado_parada)"
-                    + "VALUES (?, ?, ?, ?, ?)");
+                    "insert into participaciones(parada, solicitante, viaje, estado)"
+                    + "VALUES (?, ?, ?, ?)");
             statement.setInt(1, participacion.parada);
             statement.setString(2, participacion.solicitante);
             statement.setInt(3, participacion.viaje);
-            statement.setInt(4, participacion.estado_persona);
-            statement.setInt(5, participacion.estado_parada);
+            statement.setInt(4, participacion.estado);
+          
             statement.executeUpdate();
             return true;
 

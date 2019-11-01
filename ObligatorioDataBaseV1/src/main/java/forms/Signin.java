@@ -172,7 +172,7 @@ public class Signin extends javax.swing.JFrame {
                 txtname.getText(),
                 txtapellido.getText(),
                 chkesconductor.isSelected(),
-                txtauto.getText()));
+                txtauto.getText(),0));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

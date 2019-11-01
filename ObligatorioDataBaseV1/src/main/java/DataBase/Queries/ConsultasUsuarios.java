@@ -66,7 +66,8 @@ public class ConsultasUsuarios {
                         rs.getString("nombre"), 
                         rs.getString("apellido"), 
                         rs.getBoolean("esConductor"),
-                        rs.getString("vehiculo")));
+                        rs.getString("vehiculo"),
+                        Integer.parseInt(rs.getString("estado"))));
             }
             
             rs.close();

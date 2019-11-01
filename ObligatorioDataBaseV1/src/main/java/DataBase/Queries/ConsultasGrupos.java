@@ -28,11 +28,12 @@ public class ConsultasGrupos {
         Connection connection = ConnectionManager.getConnection();
         try {
 
-            PreparedStatement statement = connection.prepareStatement("insert into grupos(nombre, privado, admin)"
-                    + " values(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement = connection.prepareStatement("insert into grupos(nombre, privado, admin, estado)"
+                    + " values(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, group.name);
             statement.setBoolean(2, group.priavate);
             statement.setString(3, group.admin);
+            statement.setInt(4,0);
             statement.executeUpdate();
             ResultSet keys = statement.getGeneratedKeys();
             keys.next();

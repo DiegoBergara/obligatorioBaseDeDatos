@@ -50,7 +50,8 @@ public class MainController {
         String apellido = body.get("apellido");
         boolean conductor = Boolean.parseBoolean(body.get("conductor"));
         String vehiculo = body.get("vehiculo");
-        return userManager.insertar(new Usuario(mail,password,nombre,apellido,conductor,vehiculo));
+        int estado = 0;
+        return userManager.insertar(new Usuario(mail,password,nombre,apellido,conductor,vehiculo,estado));
     }
     
     @PostMapping("/CrearUbicacion")
@@ -108,7 +109,8 @@ public class MainController {
         String name = body.get("groupName");
         boolean isPrivate = Boolean.parseBoolean(body.get("isPrivate"));
         String mail_admin = body.get("admin");
-        return manager.insertar(new Grupo(name, isPrivate, mail_admin));
+        int estado = 0;
+        return manager.insertar(new Grupo(name, isPrivate, mail_admin,estado));
     }
     
     @PostMapping("/CrearParticipacion")
@@ -118,9 +120,8 @@ public class MainController {
         int parada = Integer.parseInt(body.get("parada"));
         String solicitante = body.get("solicitante");
         int viaje = Integer.parseInt(body.get("viaje"));
-        int estado_persona = Integer.parseInt(body.get("estado_persona"));
-        int estado_parada = Integer.parseInt(body.get("estado_parada"));
-        return manager.insertar(new Participacion(parada,solicitante,viaje,estado_persona,estado_parada) );
+        int estado = 0;
+        return manager.insertar(new Participacion(parada,solicitante,viaje,estado) );
     }
          
     @PostMapping("/PublicarViaje")
@@ -129,7 +130,7 @@ public class MainController {
         ConsultasViajes manager = new ConsultasViajes();       
         int id_ruta  = Integer.parseInt(body.get("rutaID"));;
         String mail_publicante = body.get("mailPublicante");
-        int estado = 1;
+        int estado = 0;
         Date fecha = Date.valueOf(body.get("fecha")); 
         Time hora = Time.valueOf(body.get("partida"));
         int lugares_disponibles = Integer.parseInt(body.get("lugaresDisponibles"));
