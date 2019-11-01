@@ -161,4 +161,13 @@ public class MainController {
         
         return manager.updatePersonaEnParticipacion(solicitante,parada,nuevo_estado);
     } 
+    
+    @PostMapping("/EliminarViaje")
+    public boolean eliminarViaje(@RequestBody Map<String, String> body) {
+        //enter code here
+        ConsultasViajes manager = new ConsultasViajes();
+        String id_viaje = body.get("id_viaje");
+       
+        return manager.eliminarViaje(id_viaje);
+    } 
 }

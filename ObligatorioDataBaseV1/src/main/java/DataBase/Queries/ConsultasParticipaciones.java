@@ -40,7 +40,7 @@ public class ConsultasParticipaciones {
         }
     }
     
-    //UPDATE PERSONA
+    //UPDATE PERSONA (Cambia el estado al parametro recibido, no a un estado específico)
     public boolean updatePersonaEnParticipacion(String solicitante, int parada, int nuevo_estado) {
         Connection connection = ConnectionManager.getConnection();
         try {
@@ -59,7 +59,7 @@ public class ConsultasParticipaciones {
         }
     }
     
-    //UPDATE PARADA
+    //UPDATE PARADA (Cambia el estado al parametro recibido, no a un estado específico)
     public boolean updateParadaEnParticipacion(String solicitante, int parada, int nuevo_estado) {
         Connection connection = ConnectionManager.getConnection();
         try {
