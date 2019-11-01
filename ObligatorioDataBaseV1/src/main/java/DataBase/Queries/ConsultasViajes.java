@@ -24,7 +24,7 @@ public class ConsultasViajes {
     
     }
     
-    public int insertar(Viaje viaje) {
+    public int insertar(Viaje viaje, int visibility, int group_id) {
         Connection connection = ConnectionManager.getConnection();
         try {
 
@@ -42,7 +42,16 @@ public class ConsultasViajes {
             int id = keys.getInt(1); 
             viaje.setID(id);
             
-//            PreparedStatement statement2 = connection.prepareStatement("insert into grupo_usuario"
+            if(visibility == 1){
+                PreparedStatement statement2 = connection.prepareStatement("insert into grupo_viaje"
+                    + " values(?,?)", Statement.RETURN_GENERATED_KEYS);
+                statement2.setInt(1, group_id);
+                statement2.setInt(2, id);
+                statement2.executeUpdate();
+            }
+//            
+//            
+//            PreparedStatement statement3 = connection.prepareStatement("insert into grupo_usuario"
 //                    + " values(?,?)", Statement.RETURN_GENERATED_KEYS);
 //            statement2.setInt(1, id);
 //            statement2.setString(2, group.admin);

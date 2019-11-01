@@ -134,7 +134,9 @@ public class MainController {
         Date fecha = Date.valueOf(body.get("fecha")); 
         Time hora = Time.valueOf(body.get("partida"));
         int lugares_disponibles = Integer.parseInt(body.get("lugaresDisponibles"));
+        int visibility = Integer.parseInt(body.get("visibility"));
+        int grupo = Integer.parseInt(body.get("grupo")); //Si visibilidad es 0, no se agrega el grupo, lo mejor seria setearlo tambien en 0, que nunca corresponde con nignun grupo
       
-        return manager.insertar(new Viaje(id_ruta,mail_publicante,estado,hora,fecha,lugares_disponibles) );
+        return manager.insertar(new Viaje(id_ruta,mail_publicante,estado,hora,fecha,lugares_disponibles), visibility, grupo );
     }
 }
