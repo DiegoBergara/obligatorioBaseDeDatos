@@ -40,4 +40,42 @@ public class ConsultasParticipaciones {
         }
     }
     
+    //UPDATE PERSONA
+    public boolean updatePersonaEnParticipacion(String solicitante, int parada, int nuevo_estado) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE public.participaciones SET estado_persona=?" +
+                    "WHERE (solicitante='"+solicitante+"' and parada='"+parada+"');");
+            statement.setInt(1, nuevo_estado);
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return false;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
+    //UPDATE PARADA
+    public boolean updateParadaEnParticipacion(String solicitante, int parada, int nuevo_estado) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE public.participaciones SET estado_parada=?" +
+                    "WHERE (solicitante='"+solicitante+"' and parada='"+parada+"');");
+            statement.setInt(1, nuevo_estado);
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return false;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
 }

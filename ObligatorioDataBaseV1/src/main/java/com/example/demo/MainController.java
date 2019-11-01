@@ -122,12 +122,11 @@ public class MainController {
         int estado_parada = Integer.parseInt(body.get("estado_parada"));
         return manager.insertar(new Participacion(parada,solicitante,viaje,estado_persona,estado_parada) );
     }
-    
+         
     @PostMapping("/PublicarViaje")
     public int insertarViaje(@RequestBody Map<String, String> body) {
         //enter code here
-        ConsultasViajes manager = new ConsultasViajes();
-        
+        ConsultasViajes manager = new ConsultasViajes();       
         int id_ruta  = Integer.parseInt(body.get("rutaID"));;
         String mail_publicante = body.get("mailPublicante");
         int estado = 1;
@@ -139,4 +138,26 @@ public class MainController {
       
         return manager.insertar(new Viaje(id_ruta,mail_publicante,estado,hora,fecha,lugares_disponibles), visibility, grupo );
     }
+    
+    @PostMapping("/UpdatePersonaEnParticipacion")
+    public boolean updatePersonaEnParticipacion(@RequestBody Map<String, String> body) {
+        //enter code here
+        ConsultasParticipaciones manager = new ConsultasParticipaciones();
+        String solicitante = body.get("solicitante");
+        int parada = Integer.parseInt(body.get("parada"));       
+        int nuevo_estado = Integer.parseInt(body.get("nuevo_estado"));
+        
+        return manager.updatePersonaEnParticipacion(solicitante,parada,nuevo_estado);
+    } 
+    
+    @PostMapping("/UpdateParadaEnParticipacion")
+    public boolean updateParadaEnParticipacion(@RequestBody Map<String, String> body) {
+        //enter code here
+        ConsultasParticipaciones manager = new ConsultasParticipaciones();
+        String solicitante = body.get("solicitante");
+        int parada = Integer.parseInt(body.get("parada"));       
+        int nuevo_estado = Integer.parseInt(body.get("nuevo_estado"));
+        
+        return manager.updatePersonaEnParticipacion(solicitante,parada,nuevo_estado);
+    } 
 }
