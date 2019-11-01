@@ -7,18 +7,19 @@ package forms;
 
 import Data.Classes.Usuario;
 import DataBase.Queries.ConsultasUsuarios;
+import javax.swing.JFrame;
 
 /**
  *
  * @author Faivel
  */
 public class Signin extends javax.swing.JFrame {
-    private Login login;
+    private JFrame parentFrame;
     /**
      * Creates new form signin
      */
-    public Signin(Login form) {
-        login = form;
+    public Signin(JFrame form) {
+        parentFrame = form;
         initComponents();
         this.setVisible(true);
     }
@@ -175,7 +176,7 @@ public class Signin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.login.setVisible(true);
+        this.parentFrame.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
