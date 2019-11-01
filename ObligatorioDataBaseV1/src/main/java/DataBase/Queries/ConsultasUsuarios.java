@@ -7,11 +7,12 @@ package DataBase.Queries;
 
 
 import Data.Classes.Usuario;
- import DataBase.Connection.ConnectionManager;
+import DataBase.Connection.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -75,6 +76,33 @@ public class ConsultasUsuarios {
             }
             return null;
             
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
+    public List<String> getUserContacts(String user_mail) {
+        Connection connection = ConnectionManager.getConnection();
+        ArrayList<String> users = new ArrayList<String>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("Select usuario2 from contactos Where usuario1=?");
+            statement.setString(1, user_mail);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                users.add(rs.getString("usuario2"));
+            }
+            
+            rs.close();
+            statement.close();
+
+            return users;
 
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);

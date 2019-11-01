@@ -21,7 +21,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        SpringApplication.run(DemoApplication.class);
+//        SpringApplication.run(DemoApplication.class);
         this.setVisible(true);
     }
 
@@ -122,7 +122,8 @@ public class Login extends javax.swing.JFrame {
         ConsultasUsuarios manager = new ConsultasUsuarios();
         Usuario user = manager.getUser(txtMail.getText(), txtpass.getText());
         if (user != null){
-            lblName.setText(user.nombre);
+            userPage userpage = new userPage(user, this);
+            this.setVisible(false);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
