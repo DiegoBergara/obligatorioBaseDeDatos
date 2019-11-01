@@ -12,6 +12,7 @@ import Data.Classes.RutaRaw;
 import Data.Classes.Usuario;
 import Data.Classes.Ubicacion;
 import Data.Classes.Valoracion;
+import Data.Classes.Viaje;
 import DataBase.Queries.ConsultasContactos;
 import DataBase.Queries.ConsultasGrupos;
 import DataBase.Queries.ConsultasParadas;
@@ -20,8 +21,13 @@ import DataBase.Queries.ConsultasRutas;
 import DataBase.Queries.ConsultasUsuarios;
 import DataBase.Queries.ConsultasUbicaciones;
 import DataBase.Queries.ConsultasValoraciones;
+import DataBase.Queries.ConsultasViajes;
+import java.sql.Date;
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.Locale;
 import java.util.Map;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -115,5 +121,20 @@ public class MainController {
         int estado_persona = Integer.parseInt(body.get("estado_persona"));
         int estado_parada = Integer.parseInt(body.get("estado_parada"));
         return manager.insertar(new Participacion(parada,solicitante,viaje,estado_persona,estado_parada) );
+    }
+    
+    @PostMapping("/PublicarViaje")
+    public int insertarViaje(@RequestBody Map<String, String> body) {
+        //enter code here
+        ConsultasViajes manager = new ConsultasViajes();
+        
+        int id_ruta  = Integer.parseInt(body.get("rutaID"));;
+        String mail_publicante = body.get("mailPublicante");
+        int estado = 1;
+        Date fecha = Date.valueOf(body.get("fecha")); 
+        Time hora = Time.valueOf(body.get("partida"));
+        int lugares_disponibles = Integer.parseInt(body.get("lugaresDisponibles"));
+      
+        return manager.insertar(new Viaje(id_ruta,mail_publicante,estado,hora,fecha,lugares_disponibles) );
     }
 }
