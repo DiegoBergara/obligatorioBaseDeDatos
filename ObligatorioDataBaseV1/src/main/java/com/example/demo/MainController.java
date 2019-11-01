@@ -162,12 +162,13 @@ public class MainController {
         return manager.updatePersonaEnParticipacion(solicitante,parada,nuevo_estado);
     } 
     
-    @PostMapping("/EliminarViaje")
-    public boolean eliminarViaje(@RequestBody Map<String, String> body) {
+    @PostMapping("/CambiarEstadoViaje")
+    public boolean cambiarEstadoViaje(@RequestBody Map<String, String> body) {
         //enter code here
         ConsultasViajes manager = new ConsultasViajes();
-        String id_viaje = body.get("id_viaje");
+        int id_viaje = Integer.parseInt(body.get("id_viaje"));
+        int estado = Integer.parseInt(body.get("estado"));
        
-        return manager.eliminarViaje(id_viaje);
+        return manager.cambiarEstadoViaje(id_viaje,estado);
     } 
 }

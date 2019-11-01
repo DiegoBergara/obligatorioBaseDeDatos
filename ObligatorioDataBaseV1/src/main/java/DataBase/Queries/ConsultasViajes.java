@@ -68,12 +68,13 @@ public class ConsultasViajes {
     }
     
     
-    public boolean eliminarViaje(String id_viaje) {
+    public boolean cambiarEstadoViaje(int id_viaje, int estado) {
         Connection connection = ConnectionManager.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE public.viajes SET estado='-1' "
+                    "UPDATE public.viajes SET estado= ? "
                             + "WHERE (id_viaje='"+id_viaje+"');");
+            statement.setInt(1,estado);
             statement.executeUpdate();
             return true;
 
