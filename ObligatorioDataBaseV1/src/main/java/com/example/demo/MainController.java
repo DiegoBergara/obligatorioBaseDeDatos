@@ -75,7 +75,7 @@ public class MainController {
     }
     
     @PostMapping("/CrearRuta")
-    public int insertarRuta(@RequestBody Map<String, String> body) {
+    public RutaRaw insertarRuta(@RequestBody Map<String, String> body) {
         
         ConsultasRutas manager = new ConsultasRutas();
         int origen = Integer.parseInt(body.get("idOrigen"));

@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -20,7 +22,7 @@ import java.sql.Statement;
  */
 public class ConsultasRutas {
     
-     public int insertar(RutaRaw ruta) {
+     public RutaRaw insertar(RutaRaw ruta) {
         Connection connection = ConnectionManager.getConnection();
         try {
 
@@ -33,14 +35,46 @@ public class ConsultasRutas {
             keys.next();
             int id = keys.getInt(1); 
             ruta.setIdRuta(id);
-            return id;
+            return ruta;
 
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
-            return -1;
+            return null;
         } finally {
             ConnectionManager.closeConnection(connection);
         }
     }
     
+     public RutaRaw buscarRuta(int origen, int destino){
+        Connection connection = ConnectionManager.getConnection();
+        List<RutaRaw> rutas = new LinkedList<RutaRaw>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("Select * from rutas Where origen=? and destino=?");
+            statement.setInt(1, origen);
+            statement.setInt(2, destino);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                rutas.add(new RutaRaw(rs.getInt("origen"),
+                        rs.getInt("destino")));
+                rutas.get(rutas.size()-1).setIdRuta(rs.getInt("id_ruta"));
+            }
+            
+            rs.close();
+            statement.close();
+            if(rutas.size() == 1){
+                return rutas.get(0);
+            }
+            return null;
+            
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+     }
 }

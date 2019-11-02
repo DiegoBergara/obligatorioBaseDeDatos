@@ -6,12 +6,15 @@
 package DataBase.Queries;
 
 import Data.Classes.Ubicacion;
+import Data.Classes.Usuario;
 import DataBase.Connection.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -41,5 +44,38 @@ public class ConsultasUbicaciones {
             ConnectionManager.closeConnection(connection);
         }
     }
+     
+    public Ubicacion buscarUbicacion(String calle, int numero_puerta){
+        Connection connection = ConnectionManager.getConnection();
+        List<Ubicacion> ubicaciones = new LinkedList<Ubicacion>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("Select * from ubicaciones Where calle=? and nro_puerta=?");
+            statement.setString(1, calle);
+            statement.setInt(2, numero_puerta);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                ubicaciones.add(new Ubicacion(rs.getString("calle"),
+                        rs.getInt("nro_puerta")));
+                ubicaciones.get(ubicaciones.size()-1).setIdUbicacion(rs.getInt("id_ubicacion"));
+            }
+            
+            rs.close();
+            statement.close();
+            if(ubicaciones.size() == 1){
+                return ubicaciones.get(0);
+            }
+            return null;
+            
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+     }
     
 }

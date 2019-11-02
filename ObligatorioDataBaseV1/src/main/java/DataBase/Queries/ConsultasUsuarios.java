@@ -6,6 +6,7 @@
 package DataBase.Queries;
 
 
+import Data.Classes.Grupo;
 import Data.Classes.Usuario;
 import DataBase.Connection.ConnectionManager;
 import java.sql.Connection;
@@ -130,6 +131,33 @@ public class ConsultasUsuarios {
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
             return false;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
+    public List<Integer> getUserGroups(String user_mail) {
+        Connection connection = ConnectionManager.getConnection();
+        ArrayList<Integer> grupos = new ArrayList<Integer>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("Select grupo from grupo_usuario Where usuario=?");
+            statement.setString(1, user_mail);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                grupos.add(rs.getInt("grupo"));
+            }
+            
+            rs.close();
+            statement.close();
+
+            return grupos;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
         } finally {
             ConnectionManager.closeConnection(connection);
         }
