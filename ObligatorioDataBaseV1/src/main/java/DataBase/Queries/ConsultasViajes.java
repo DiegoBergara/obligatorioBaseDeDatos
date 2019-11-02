@@ -42,13 +42,17 @@ public class ConsultasViajes {
             int id = keys.getInt(1); 
             viaje.setID(id);
             
+            int group=-1;
             if(visibility == 1){
-                PreparedStatement statement2 = connection.prepareStatement("insert into grupo_viaje"
-                    + " values(?,?)", Statement.RETURN_GENERATED_KEYS);
-                statement2.setInt(1, group_id);
-                statement2.setInt(2, id);
-                statement2.executeUpdate();
+                group = group_id;
             }
+            
+            PreparedStatement statement2 = connection.prepareStatement("insert into grupo_viaje"
+                    + " values(?,?)", Statement.RETURN_GENERATED_KEYS);
+            statement2.setInt(1, group);
+            statement2.setInt(2, id);
+            statement2.executeUpdate();
+            
 //            
 //            
 //            PreparedStatement statement3 = connection.prepareStatement("insert into grupo_usuario"

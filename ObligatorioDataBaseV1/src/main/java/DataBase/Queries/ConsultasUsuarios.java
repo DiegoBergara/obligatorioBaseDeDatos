@@ -38,7 +38,7 @@ public class ConsultasUsuarios {
             statement.setString(7, user.vehiculo);
             statement.setInt(8, 1);
             statement.executeUpdate();
-
+            
             return true;
 
         } catch (SQLException sqle) {
@@ -108,6 +108,28 @@ public class ConsultasUsuarios {
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
             return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
+    public boolean cambiarEstado(String usuario, int estado){
+         Connection connection = ConnectionManager.getConnection();
+          try {
+
+            PreparedStatement statement = connection.prepareStatement("update usuarios set estado=? where usuario=?");
+            statement.setInt(1, estado);
+            statement.setString(2,usuario);
+            statement.executeQuery();
+           
+            
+            statement.close();
+
+            return true;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return false;
         } finally {
             ConnectionManager.closeConnection(connection);
         }

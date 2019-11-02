@@ -11,7 +11,7 @@ package Data.Classes;
  */
 public class Participacion {
     public String solicitante;
-    //public boolean estado_persona, estado_parada;
+    
     public int parada, viaje, estado;
 
     public Participacion(int parada, String solicitante, int viaje, int estado) {

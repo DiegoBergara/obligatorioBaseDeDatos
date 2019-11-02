@@ -40,8 +40,8 @@ public class ConsultasGrupos {
             int id = keys.getInt(1); 
             group.setIdGroup(id);
             
-            PreparedStatement statement2 = connection.prepareStatement("insert into grupo_usuario"
-                    + " values(?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement statement2 = connection.prepareStatement("insert into grupo_usuario(grupo,usuario,estado)"
+                    + " values(?,?,1)", Statement.RETURN_GENERATED_KEYS);
             statement2.setInt(1, id);
             statement2.setString(2, group.admin);
             statement2.executeUpdate();
@@ -51,6 +51,46 @@ public class ConsultasGrupos {
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
             return -1;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
+     public boolean cambiarEstadoGrupoUsuario(int grupo,String usuario, int estado) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement("update grupo_usuario set estado=? where grupo=? and usuario=?");
+            statement.setInt(1, estado);
+            statement.setInt(2, grupo);
+            statement.setString(3, usuario);
+            statement.executeUpdate();
+            return true;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return false;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+     
+     public boolean cambiarEstado(String grupo, int estado){
+         Connection connection = ConnectionManager.getConnection();
+          try {
+
+            PreparedStatement statement = connection.prepareStatement("update grupos set estado=? where usuario=?");
+            statement.setInt(1, estado);
+            statement.setString(2,grupo);
+            statement.executeQuery();
+           
+            
+            statement.close();
+
+            return true;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return false;
         } finally {
             ConnectionManager.closeConnection(connection);
         }

@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Locale;
 import java.util.Map;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,30 +43,30 @@ public class MainController {
     
     @PostMapping("/CrearUsuario")
     public boolean insertarUsuario(@RequestBody Map<String, String> body) {
-        //enter code here
+        
         ConsultasUsuarios userManager = new ConsultasUsuarios();
         String mail = body.get("mail");
         String password = body.get("password");
-        String nombre = body.get("nombre");
-        String apellido = body.get("apellido");
+        String nombre = body.get("nombre").toUpperCase();
+        String apellido = body.get("apellido").toUpperCase();
         boolean conductor = Boolean.parseBoolean(body.get("conductor"));
-        String vehiculo = body.get("vehiculo");
+        String vehiculo = body.get("vehiculo").toUpperCase();
         int estado = 0;
         return userManager.insertar(new Usuario(mail,password,nombre,apellido,conductor,vehiculo,estado));
     }
     
     @PostMapping("/CrearUbicacion")
     public Ubicacion insertarUbicacion(@RequestBody Map<String, String> body) {
-        System.out.println(body);
+        
         ConsultasUbicaciones manager = new ConsultasUbicaciones();
-        String calle = body.get("calle");
+        String calle = body.get("calle").toUpperCase();
         int nroPuerta = Integer.parseInt(body.get("nroPuerta"));
         return manager.insertar(new Ubicacion(calle,nroPuerta));
     }
     
     @PostMapping("/CrearParada")
     public int insertarParada(@RequestBody Map<String, String> body) {
-        System.out.println(body);
+        
         ConsultasParadas manager = new ConsultasParadas();
         int idUbicacion =Integer.parseInt(body.get("idUbicacion"));
         LocalTime aux = LocalTime.parse(body.get("hora"));
@@ -75,7 +76,7 @@ public class MainController {
     
     @PostMapping("/CrearRuta")
     public int insertarRuta(@RequestBody Map<String, String> body) {
-        System.out.println(body);
+        
         ConsultasRutas manager = new ConsultasRutas();
         int origen = Integer.parseInt(body.get("idOrigen"));
         int destino = Integer.parseInt(body.get("idDestino"));
@@ -84,7 +85,7 @@ public class MainController {
     
     @PostMapping("/CrearValoracion")
     public boolean insertarValoracion(@RequestBody Map<String, String> body) {
-        //enter code here
+       
         ConsultasValoraciones Manager = new ConsultasValoraciones();
         String calificador = body.get("calificador");
         String calificado = body.get("calificado");
@@ -95,7 +96,7 @@ public class MainController {
         
     @PostMapping("/AgregarContacto")
     public boolean agregarContacto(@RequestBody Map<String, String> body) {
-        System.out.println(body);
+        
         ConsultasContactos manager = new ConsultasContactos();
         String mail_self = body.get("mailSelf");
         String mail_contact = body.get("mailContacto");
@@ -104,9 +105,9 @@ public class MainController {
     
     @PostMapping("/CrearGrupo")
     public int insertarGrupo(@RequestBody Map<String, String> body) {
-        System.out.println(body);
+        
         ConsultasGrupos manager = new ConsultasGrupos();
-        String name = body.get("groupName");
+        String name = body.get("groupName").toUpperCase();
         boolean isPrivate = Boolean.parseBoolean(body.get("isPrivate"));
         String mail_admin = body.get("admin");
         int estado = 0;
@@ -115,7 +116,7 @@ public class MainController {
     
     @PostMapping("/CrearParticipacion")
     public boolean insertarParticipacion(@RequestBody Map<String, String> body) {
-        //enter code here
+        
         ConsultasParticipaciones manager = new ConsultasParticipaciones();
         int parada = Integer.parseInt(body.get("parada"));
         String solicitante = body.get("solicitante");
@@ -126,7 +127,7 @@ public class MainController {
          
     @PostMapping("/PublicarViaje")
     public int insertarViaje(@RequestBody Map<String, String> body) {
-        //enter code here
+        
         ConsultasViajes manager = new ConsultasViajes();       
         int id_ruta  = Integer.parseInt(body.get("rutaID"));;
         String mail_publicante = body.get("mailPublicante");
@@ -140,35 +141,56 @@ public class MainController {
         return manager.insertar(new Viaje(id_ruta,mail_publicante,estado,hora,fecha,lugares_disponibles), visibility, grupo );
     }
     
-    @PostMapping("/UpdatePersonaEnParticipacion")
-    public boolean updatePersonaEnParticipacion(@RequestBody Map<String, String> body) {
-        //enter code here
+    @PatchMapping("/CambiarEstadoParticipacion")
+    public boolean updateEstadoParticipacion(@RequestBody Map<String, String> body) {
+        
         ConsultasParticipaciones manager = new ConsultasParticipaciones();
         String solicitante = body.get("solicitante");
-        int parada = Integer.parseInt(body.get("parada"));       
-        int nuevo_estado = Integer.parseInt(body.get("nuevo_estado"));
+        int parada = Integer.parseInt(body.get("parada"));  
+        int viaje = Integer.parseInt(body.get("viaje"));  
+        int nuevo_estado = Integer.parseInt(body.get("estado"));
         
-        return manager.updatePersonaEnParticipacion(solicitante,parada,nuevo_estado);
+        return manager.updateEstadoParticipacion(solicitante,parada,nuevo_estado,viaje);
     } 
     
-    @PostMapping("/UpdateParadaEnParticipacion")
-    public boolean updateParadaEnParticipacion(@RequestBody Map<String, String> body) {
-        //enter code here
-        ConsultasParticipaciones manager = new ConsultasParticipaciones();
-        String solicitante = body.get("solicitante");
-        int parada = Integer.parseInt(body.get("parada"));       
-        int nuevo_estado = Integer.parseInt(body.get("nuevo_estado"));
-        
-        return manager.updatePersonaEnParticipacion(solicitante,parada,nuevo_estado);
-    } 
-    
-    @PostMapping("/CambiarEstadoViaje")
+    @PatchMapping("/CambiarEstadoViaje")
     public boolean cambiarEstadoViaje(@RequestBody Map<String, String> body) {
-        //enter code here
+        
         ConsultasViajes manager = new ConsultasViajes();
         int id_viaje = Integer.parseInt(body.get("id_viaje"));
         int estado = Integer.parseInt(body.get("estado"));
        
         return manager.cambiarEstadoViaje(id_viaje,estado);
-    } 
+    }
+    
+    @PatchMapping("/CambiarEstadoGrupoUsuario")
+    public boolean CambiarEstadoGrupoUsuario(@RequestBody Map<String, String> body) {
+       
+        ConsultasGrupos manager = new ConsultasGrupos();
+        int grupo = Integer.parseInt(body.get("grupo"));
+        String usuario = body.get("usuario");
+        int estado = Integer.parseInt(body.get("estado"));
+       
+        return manager.cambiarEstadoGrupoUsuario(grupo,usuario,estado);
+    }
+    
+    @PatchMapping("/CambiarEstadoPersona")
+    public boolean CambiarEstadoPersona(@RequestBody Map<String, String> body) {
+       
+        ConsultasUsuarios manager = new ConsultasUsuarios();
+        String usuario = body.get("usuario");
+        int estado = Integer.parseInt(body.get("estado"));
+       
+        return manager.cambiarEstado(usuario,estado);
+    }
+    
+    @PatchMapping("/CambiarEstadoGrupo")
+    public boolean CambiarEstadoGrupo(@RequestBody Map<String, String> body) {
+       
+        ConsultasGrupos manager = new ConsultasGrupos();
+        String grupo = body.get("grupo");
+        int estado = Integer.parseInt(body.get("estado"));
+       
+        return manager.cambiarEstado(grupo,estado);
+    }
 }
