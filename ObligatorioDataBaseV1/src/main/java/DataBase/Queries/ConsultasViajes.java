@@ -52,15 +52,6 @@ public class ConsultasViajes {
             statement2.setInt(1, group);
             statement2.setInt(2, id);
             statement2.executeUpdate();
-            
-//            
-//            
-//            PreparedStatement statement3 = connection.prepareStatement("insert into grupo_usuario"
-//                    + " values(?,?)", Statement.RETURN_GENERATED_KEYS);
-//            statement2.setInt(1, id);
-//            statement2.setString(2, group.admin);
-//            statement2.executeUpdate();
-
             return id;
 
         } catch (SQLException sqle) {
