@@ -10,9 +10,10 @@ package Data.Classes;
  * @author USER
  */
 public class Participacion {
-    public String solicitante;
+    public String solicitante, calle, conductor;
     
-    public int parada, viaje, estado;
+    public int parada, viaje, estado, numero_calle;
+    
 
     public Participacion(int parada, String solicitante, int viaje, int estado) {
         this.parada = parada;
@@ -54,7 +55,13 @@ public class Participacion {
         this.estado = estado;
     }
     
-
-
+    public void setUbicacion(String calle, int nro){
+        this.calle = calle;
+        this.numero_calle = nro;
+    }
+    
+    public void setConductor(String conductor) {
+        this.conductor = conductor;
+    }
     
 }
