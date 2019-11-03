@@ -26,4 +26,9 @@ public class Grupo {
     public void setIdGroup(int idGroup) {
         this.idGrupo = idGroup;
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
 }

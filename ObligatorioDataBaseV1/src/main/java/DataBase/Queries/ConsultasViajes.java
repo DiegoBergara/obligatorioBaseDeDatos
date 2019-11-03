@@ -9,10 +9,14 @@ import Data.Classes.Grupo;
 import Data.Classes.Viaje;
 import DataBase.Connection.ConnectionManager;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -80,5 +84,52 @@ public class ConsultasViajes {
             ConnectionManager.closeConnection(connection);
         }
     }
+    
+     
+    public List<Viaje> getViajesGroups(int grupo_id) {
+        Connection connection = ConnectionManager.getConnection();
+        ArrayList<Viaje> viajes = new ArrayList<Viaje>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("select v.id_viaje as id_viaje, \n" +
+            "	   r.id_ruta as id_ruta, \n" +
+            "	   v.conductor as conductor, \n" +
+            "	   v.fecha as fecha, \n" +
+            "	   v.partida as hora, \n" +
+            "	   v.lugares_disponibles as lg,\n" +
+            "      v.estado as estado,\n" +
+            "	   uo.calle as ocalle,\n" +
+            "	   uo.nro_puerta as onumero,\n" +
+            "	   ud.calle as dcalle,\n" +
+            "	   ud.nro_puerta as dnumero\n" +
+            "from grupo_viaje gv \n" +
+            "join viajes v on gv.viaje = v.id_viaje\n" +
+            "join rutas r on v.id_ruta = r.id_ruta\n" +
+            "join ubicaciones uo on uo.id_ubicacion = r.origen  \n" +
+            "join ubicaciones ud on ud.id_ubicacion = r.destino\n" +
+            "where gv.grupo = ? ");
+            statement.setInt(1, grupo_id);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                viajes.add(new Viaje(rs.getInt("id_ruta"), rs.getString("conductor"), rs.getInt("estado"),rs.getTime("hora"), rs.getDate("fecha"), rs.getInt("lg")));
+                viajes.get(viajes.size()-1).setUbicaciones(rs.getString("ocalle"), rs.getInt("onumero"), rs.getString("dcalle"), rs.getInt("dnumero"));
+                viajes.get(viajes.size()-1).setID(rs.getInt("id_viaje"));
+            }
+            
+            rs.close();
+            statement.close();
+
+            return viajes;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
     
 }

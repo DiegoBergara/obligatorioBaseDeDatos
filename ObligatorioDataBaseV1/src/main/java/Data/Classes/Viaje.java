@@ -20,6 +20,10 @@ public class Viaje {
     public Time hora;
     public Date fecha;
     public int lugares_disponibles;
+    public String origen_calle;
+    public int origen_numero;
+    public String destino_calle;
+    public int destino_numero;
     
     public Viaje(int rutaID, String mail_publicante, int estado, Time hora, Date fecha, int lugares_disponibles){
         this.id_ruta = rutaID;
@@ -28,12 +32,21 @@ public class Viaje {
         this.fecha = fecha;
         this.hora = hora;
         this.lugares_disponibles = lugares_disponibles;
+        
     }
     
     public void setID(int id){
         this.viaje_id = id;
     }
-
+    
+    
+    public void setUbicaciones(String ocalle, int onumero, String dcalle, int dnumero){
+        this.origen_calle = ocalle;
+        this.origen_numero = onumero;
+        this.destino_calle = dcalle;
+        this.destino_numero = dnumero;
+                
+    }
         
     
 }

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  *
@@ -98,9 +99,9 @@ public class ConsultasGrupos {
         }
     }
      
-    public List<Grupo> getUserGroups(String user_mail) {
+    public Vector<Grupo> getUserGroups(String user_mail) {
         Connection connection = ConnectionManager.getConnection();
-        ArrayList<Grupo> grupos = new ArrayList<Grupo>();
+        Vector<Grupo> grupos = new Vector<Grupo>();
         try {
 
             PreparedStatement statement = connection.prepareStatement("select g.codigo_grupo as cg, g.nombre as nombre, g.privado as privado, g.admin as admin, g.estado as estado\n" +

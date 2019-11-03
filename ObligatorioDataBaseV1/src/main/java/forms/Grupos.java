@@ -7,9 +7,13 @@ package forms;
 
 import Data.Classes.Grupo;
 import Data.Classes.Usuario;
+import Data.Classes.Viaje;
 import DataBase.Queries.ConsultasGrupos;
 import DataBase.Queries.ConsultasUsuarios;
+import DataBase.Queries.ConsultasViajes;
+import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +22,9 @@ import javax.swing.JFrame;
 public class Grupos extends javax.swing.JFrame {
     JFrame parentFrame;
     Usuario user;
+    Vector grupos;
+    java.util.List<Viaje> viajes;
+    DefaultTableModel model;
     /**
      * Creates new form Grupos
      */
@@ -26,6 +33,17 @@ public class Grupos extends javax.swing.JFrame {
         this.user = user;
         initComponents();
         this.setVisible(true);
+        model = new DefaultTableModel();
+        model.addColumn("Id");
+        model.addColumn("Publicante");
+        model.addColumn("Fecha");
+        model.addColumn("Partida");
+        model.addColumn("Calle Origen");
+        model.addColumn("Numero Origen");
+        model.addColumn("Calle Destino");
+        model.addColumn("Numero Destino");
+        model.addColumn("Lugares Disponibles");
+        jTable1.setModel(model);
     }
 
     /**
@@ -37,11 +55,18 @@ public class Grupos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lstGrupos = new java.awt.List();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lstGrupos = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setAutoRequestFocus(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -57,33 +82,81 @@ public class Grupos extends javax.swing.JFrame {
 
         jLabel1.setText("Tus Grupos");
 
+        jButton2.setText("Ver Viajes");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel2.setText(">>");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jLabel3.setText("Viajes Publicados en Grupos Seleccionado");
+
+        jScrollPane2.setViewportView(lstGrupos);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(404, 404, 404))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
+                        .addContainerGap()
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(lstGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(154, 154, 154)
+                        .addComponent(jButton2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(jLabel1)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                        .addGap(48, 48, 48)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel2)
+                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jLabel2)))
                 .addGap(30, 30, 30)
-                .addComponent(lstGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -96,13 +169,33 @@ public class Grupos extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         ConsultasGrupos con_grupo = new ConsultasGrupos();
-        java.util.List<Grupo> contactos = con_grupo.getUserGroups(user.mail);
-        if (contactos != null){
-            for (Grupo g : contactos) {
-		lstGrupos.add(g.name);
-            }
+        this.grupos = con_grupo.getUserGroups(user.mail);
+        if (grupos != null){
+            lstGrupos.setListData(this.grupos);
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        Grupo grupo = lstGrupos.getSelectedValue();
+        ConsultasViajes con_viajes = new ConsultasViajes();       
+        viajes = con_viajes.getViajesGroups(grupo.idGrupo);
+        if (viajes != null){
+            for (Viaje viaje : viajes) {
+                Vector row = new Vector();
+                row.add(viaje.viaje_id);
+                row.add(viaje.mail_publicante);
+                row.add(viaje.fecha);
+                row.add(viaje.hora);
+                row.add(viaje.origen_calle);
+                row.add(viaje.origen_numero);
+                row.add(viaje.destino_calle);
+                row.add(viaje.destino_numero);
+                row.add(viaje.lugares_disponibles);
+		model.addRow(row);
+            }
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,7 +234,13 @@ public class Grupos extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private java.awt.List lstGrupos;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JList<Grupo> lstGrupos;
     // End of variables declaration//GEN-END:variables
 }
