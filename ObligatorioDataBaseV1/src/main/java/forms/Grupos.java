@@ -6,11 +6,18 @@
 package forms;
 
 import Data.Classes.Grupo;
+import Data.Classes.Parada;
+import Data.Classes.Participacion;
+import Data.Classes.Ubicacion;
 import Data.Classes.Usuario;
 import Data.Classes.Viaje;
 import DataBase.Queries.ConsultasGrupos;
+import DataBase.Queries.ConsultasParadas;
+import DataBase.Queries.ConsultasParticipaciones;
+import DataBase.Queries.ConsultasUbicaciones;
 import DataBase.Queries.ConsultasUsuarios;
 import DataBase.Queries.ConsultasViajes;
+import java.sql.Time;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
@@ -43,7 +50,7 @@ public class Grupos extends javax.swing.JFrame {
         model.addColumn("Calle Destino");
         model.addColumn("Numero Destino");
         model.addColumn("Lugares Disponibles");
-        jTable1.setModel(model);
+        tblviajes.setModel(model);
     }
 
     /**
@@ -60,10 +67,18 @@ public class Grupos extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblviajes = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstGrupos = new javax.swing.JList<>();
+        jPanel1 = new javax.swing.JPanel();
+        jButton3 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        solicitudHora = new javax.swing.JTextField();
+        solicitudCalle = new javax.swing.JTextField();
+        solicitudNumero = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
@@ -92,7 +107,7 @@ public class Grupos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel2.setText(">>");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblviajes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -103,11 +118,70 @@ public class Grupos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblviajes);
 
         jLabel3.setText("Viajes Publicados en Grupos Seleccionado");
 
         jScrollPane2.setViewportView(lstGrupos);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Enviar Solicitud de Aventon"));
+
+        jButton3.setText("Enviar Solicitud");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Hora");
+
+        jLabel5.setText("Ubicacion Calle");
+
+        jLabel6.setText("Ubicacion Numero");
+
+        solicitudNumero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                solicitudNumeroActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(solicitudNumero, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                    .addComponent(solicitudHora)
+                    .addComponent(solicitudCalle))
+                .addGap(55, 55, 55)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(solicitudHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(solicitudCalle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(solicitudNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,19 +196,23 @@ public class Grupos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(154, 154, 154)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel2)
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                        .addComponent(jButton2)))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(198, 198, 198)))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,11 +230,17 @@ public class Grupos extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(123, 123, 123)
                         .addComponent(jLabel2)))
-                .addGap(30, 30, 30)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(22, Short.MAX_VALUE))))
         );
 
         pack();
@@ -197,6 +281,32 @@ public class Grupos extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void solicitudNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solicitudNumeroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_solicitudNumeroActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        ConsultasUbicaciones con_ubic = new ConsultasUbicaciones();
+        Ubicacion ubic = con_ubic.buscarUbicacion(solicitudCalle.getText(), Integer.parseInt(solicitudNumero.getText()));
+        
+        if(ubic == null){
+            ubic = con_ubic.insertar(new Ubicacion(solicitudCalle.getText(), Integer.parseInt(solicitudNumero.getText())));
+        }
+        
+        ConsultasParadas con_paradas = new ConsultasParadas();
+        Parada parada = con_paradas.buscarParada(ubic.idUbicacion,Time.valueOf(solicitudHora.getText()));
+        
+        if(parada == null){
+            parada = new Parada(ubic.idUbicacion,Time.valueOf(solicitudHora.getText()));
+            con_paradas.insertar(parada);
+        }
+        
+        ConsultasParticipaciones con_part = new ConsultasParticipaciones();
+        System.out.println(parada.idParada);
+        Participacion participacion = new Participacion(parada.idParada, user.mail, (int) tblviajes.getModel().getValueAt(tblviajes.getSelectedRow(), 0), 0);
+        con_part.insertar(participacion);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -235,12 +345,20 @@ public class Grupos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JList<Grupo> lstGrupos;
+    private javax.swing.JTextField solicitudCalle;
+    private javax.swing.JTextField solicitudHora;
+    private javax.swing.JTextField solicitudNumero;
+    private javax.swing.JTable tblviajes;
     // End of variables declaration//GEN-END:variables
 }

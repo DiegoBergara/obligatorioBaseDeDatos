@@ -14,7 +14,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -34,7 +37,7 @@ public class ConsultasParadas {
             ResultSet keys = statement.getGeneratedKeys();
             keys.next();
             int id = keys.getInt(1); 
-            parada.setIdUbicacion(id);
+            parada.setIdParada(id);
             return id;
 
         } catch (SQLException sqle) {
@@ -44,6 +47,39 @@ public class ConsultasParadas {
             ConnectionManager.closeConnection(connection);
         }
     }
+     
+     public Parada buscarParada(int ubic, Time hora){
+        Connection connection = ConnectionManager.getConnection();
+        List<Parada> paradas = new LinkedList<Parada>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("Select * from paradas Where ubicacion=? and hora=?");
+            statement.setInt(1, ubic);
+            statement.setTime(2, hora);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                paradas.add(new Parada(rs.getInt("ubicacion"),
+                        rs.getTime("hora")));
+                paradas.get(paradas.size()-1).setIdParada(rs.getInt("num_parada"));
+            }
+            
+            rs.close();
+            statement.close();
+            if(paradas.size() == 1){
+                return paradas.get(0);
+            }
+            return null;
+            
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+     }
     
     
 }
