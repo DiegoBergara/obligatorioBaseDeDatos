@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -91,6 +93,35 @@ public class ConsultasGrupos {
         } catch (SQLException sqle) {
             System.out.println("Error: " + sqle);
             return false;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+     
+    public List<Grupo> getUserGroups(String user_mail) {
+        Connection connection = ConnectionManager.getConnection();
+        ArrayList<Grupo> grupos = new ArrayList<Grupo>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("select g.codigo_grupo as cg, g.nombre as nombre, g.privado as privado, g.admin as admin, g.estado as estado\n" +
+            "from grupo_usuario gu join grupos g on gu.grupo = g.codigo_grupo where gu.usuario = ?");
+            statement.setString(1, user_mail);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                grupos.add(new Grupo(rs.getString("nombre"),rs.getBoolean("privado"), rs.getString("admin"), rs.getInt("estado")));
+                grupos.get(grupos.size()-1).setIdGroup(rs.getInt("cg"));
+            }
+            
+            rs.close();
+            statement.close();
+
+            return grupos;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
         } finally {
             ConnectionManager.closeConnection(connection);
         }
