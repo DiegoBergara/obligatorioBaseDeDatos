@@ -44,6 +44,12 @@ public class Contacts extends javax.swing.JFrame {
             }
         });
 
+        contactList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactListActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("Back");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +98,10 @@ public class Contacts extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_formWindowOpened
+
+    private void contactListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactListActionPerformed
 
     /**
      * @param args the command line arguments

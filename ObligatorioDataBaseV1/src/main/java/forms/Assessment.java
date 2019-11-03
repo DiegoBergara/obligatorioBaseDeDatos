@@ -5,8 +5,11 @@
  */
 package forms;
 
+import Data.Classes.Usuario;
 import Data.Classes.Valoracion;
+import DataBase.Queries.ConsultasUsuarios;
 import DataBase.Queries.ConsultasValoraciones;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,12 +17,16 @@ import javax.swing.JOptionPane;
  * @author Nico
  */
 public class Assessment extends javax.swing.JFrame {
-
+    JFrame parent_frame;
+    Usuario user;
     /**
      * Creates new form Assessment
      */
-    public Assessment() {
+    public Assessment(JFrame parent, Usuario user) {
+        this.parent_frame = parent;
+        this.user = user;
         initComponents();
+        this.setVisible(true);
     }
 
     /**
@@ -34,13 +41,17 @@ public class Assessment extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObservacion = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         puntaje = new javax.swing.JSlider();
         jLabel3 = new javax.swing.JLabel();
-        txtValorador = new javax.swing.JTextField();
-        txtValorado = new javax.swing.JTextField();
+        cbcontactos = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jButton1.setText("Valorar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -54,8 +65,6 @@ public class Assessment extends javax.swing.JFrame {
         txtObservacion.setText("Observaciones...");
         jScrollPane1.setViewportView(txtObservacion);
 
-        jLabel1.setText("Valorador:");
-
         puntaje.setMajorTickSpacing(1);
         puntaje.setMaximum(10);
         puntaje.setMinimum(1);
@@ -66,48 +75,57 @@ public class Assessment extends javax.swing.JFrame {
 
         jLabel3.setText("Usuario a valorar:");
 
+        cbcontactos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton2.setText("Volver");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane1)
-                    .addComponent(puntaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtValorador)
-                    .addComponent(txtValorado))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1)
+                            .addComponent(puntaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3)
+                            .addComponent(cbcontactos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(5, 5, 5)
-                .addComponent(txtValorador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtValorado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbcontactos, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(puntaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String calificador = this.txtValorador.getText();
-        String calificado = this.txtValorado.getText();
+        String calificador = this.user.mail;
+        String calificado = (String)this.cbcontactos.getSelectedItem();
         int calificacion = this.puntaje.getValue();
         String observaciones = this.txtObservacion.getText();
         
@@ -116,12 +134,27 @@ public class Assessment extends javax.swing.JFrame {
         boolean guardado = Manager.insertar(objValoracion);
         if(guardado==true){
             JOptionPane.showMessageDialog(null, "Valoración guardada con éxito!");
-            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null, "Error al guardar valoración.");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.parent_frame.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        ConsultasUsuarios con_user = new ConsultasUsuarios();
+        cbcontactos.removeAllItems();
+        java.util.List<String> contactos = con_user.getUserContacts(user.mail);
+        if (contactos != null){
+            for (String contact : contactos) {
+		cbcontactos.addItem(contact);
+            }
+        }
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -151,21 +184,20 @@ public class Assessment extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Assessment().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Assessment().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cbcontactos;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider puntaje;
     private javax.swing.JTextArea txtObservacion;
-    private javax.swing.JTextField txtValorado;
-    private javax.swing.JTextField txtValorador;
     // End of variables declaration//GEN-END:variables
 }
