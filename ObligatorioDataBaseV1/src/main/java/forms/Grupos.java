@@ -20,6 +20,7 @@ import DataBase.Queries.ConsultasViajes;
 import java.sql.Time;
 import java.util.Vector;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -212,7 +213,7 @@ public class Grupos extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(198, 198, 198)))
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,25 +287,30 @@ public class Grupos extends javax.swing.JFrame {
     }//GEN-LAST:event_solicitudNumeroActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ConsultasUbicaciones con_ubic = new ConsultasUbicaciones();
-        Ubicacion ubic = con_ubic.buscarUbicacion(solicitudCalle.getText(), Integer.parseInt(solicitudNumero.getText()));
-        
-        if(ubic == null){
-            ubic = con_ubic.insertar(new Ubicacion(solicitudCalle.getText(), Integer.parseInt(solicitudNumero.getText())));
+        String mail = (String)tblviajes.getModel().getValueAt(tblviajes.getSelectedRow(), 1);
+        if (mail.compareTo(user.mail) != 0){
+            ConsultasUbicaciones con_ubic = new ConsultasUbicaciones();
+            Ubicacion ubic = con_ubic.buscarUbicacion(solicitudCalle.getText(), Integer.parseInt(solicitudNumero.getText()));
+
+            if(ubic == null){
+                ubic = con_ubic.insertar(new Ubicacion(solicitudCalle.getText(), Integer.parseInt(solicitudNumero.getText())));
+            }
+
+            ConsultasParadas con_paradas = new ConsultasParadas();
+            Parada parada = con_paradas.buscarParada(ubic.idUbicacion,Time.valueOf(solicitudHora.getText()));
+
+            if(parada == null){
+                parada = new Parada(ubic.idUbicacion,Time.valueOf(solicitudHora.getText()));
+                con_paradas.insertar(parada);
+            }
+
+            ConsultasParticipaciones con_part = new ConsultasParticipaciones();
+            System.out.println(parada.idParada);
+            Participacion participacion = new Participacion(parada.idParada, user.mail, (int) tblviajes.getModel().getValueAt(tblviajes.getSelectedRow(), 0), 0);
+            con_part.insertar(participacion);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede solicitar viajar en un viaje publicado por ud msimo");
         }
-        
-        ConsultasParadas con_paradas = new ConsultasParadas();
-        Parada parada = con_paradas.buscarParada(ubic.idUbicacion,Time.valueOf(solicitudHora.getText()));
-        
-        if(parada == null){
-            parada = new Parada(ubic.idUbicacion,Time.valueOf(solicitudHora.getText()));
-            con_paradas.insertar(parada);
-        }
-        
-        ConsultasParticipaciones con_part = new ConsultasParticipaciones();
-        System.out.println(parada.idParada);
-        Participacion participacion = new Participacion(parada.idParada, user.mail, (int) tblviajes.getModel().getValueAt(tblviajes.getSelectedRow(), 0), 0);
-        con_part.insertar(participacion);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
