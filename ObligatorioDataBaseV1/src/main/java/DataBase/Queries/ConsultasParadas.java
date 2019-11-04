@@ -16,8 +16,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -77,6 +81,43 @@ public class ConsultasParadas {
             System.out.println("Error: " + sqle);
             return null;
         } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+     }
+     
+     public List<Map<String, String>> paradasByViajeId(int viaje){
+         Connection connection = ConnectionManager.getConnection();
+         List<Map<String, String>> result = new LinkedList<>();
+         try {
+             PreparedStatement statement = connection.prepareStatement("select "
+                     + "x.parada, x.solicitante, x.viaje, x.estado_persona, x.estado_parada, u.calle, u.nro_puerta, y.hora\n"
+                     + "from participaciones x \n"
+                     + "join paradas y on y.num_parada = x.parada\n"
+                     + "join ubicaciones u on y.ubicacion=u.id_ubicacion\n"
+                     + "where x.viaje=?");
+             statement.setInt(1, viaje);
+
+             ResultSet rs = statement.executeQuery();
+             while (rs.next()) {
+
+                 Map<String, String> aux = new HashMap<>();
+                 aux.put("parada", Integer.toString(rs.getInt("parada")));
+                 aux.put("solicitante", rs.getString("solicitante"));
+                 aux.put("viaje", Integer.toString(rs.getInt("viaje")));
+                 aux.put("estado_persona", Integer.toString(rs.getInt("estado_persona")));
+                 aux.put("estado_parada", Integer.toString(rs.getInt("estado_parada")));
+                 aux.put("calle", rs.getString("calle"));
+                 aux.put("nro_puerta", Integer.toString(rs.getInt("nro_puerta")));
+                 aux.put("hora", rs.getString("hora"));
+                 
+             }
+              rs.close();
+            statement.close();
+             return result;
+         } catch (SQLException ex) {
+             System.out.println("Error: " + ex);
+             return result;
+         }finally {
             ConnectionManager.closeConnection(connection);
         }
      }

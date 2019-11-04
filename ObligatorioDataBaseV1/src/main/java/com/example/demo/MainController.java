@@ -263,4 +263,11 @@ public class MainController {
         int grupo = Integer.parseInt(body.get("grupo"));
         return manager.getViajesGroups(grupo);
     }
+    
+    @GetMapping("/ObtenerParadasDeViaje")
+    public  List<Map<String, String>> ObtenerParadasDeViaje(@RequestBody Map<String, String> body){
+        ConsultasParadas manager = new ConsultasParadas();     
+        int viaje = Integer.parseInt(body.get("viaje"));
+        return manager.paradasByViajeId(viaje);
+    }
 }
