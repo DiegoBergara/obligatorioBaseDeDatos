@@ -270,4 +270,11 @@ public class MainController {
         int viaje = Integer.parseInt(body.get("viaje"));
         return manager.paradasByViajeId(viaje);
     }
+    
+    
+    public List<Map<String, String>> valoracionPromedio(@RequestBody Map<String, String> body){
+        ConsultasValoraciones manager = new ConsultasValoraciones();
+        String mail = body.get("mail");
+        return manager.valoracionPromedio(mail);
+    }
 }

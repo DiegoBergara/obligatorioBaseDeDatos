@@ -109,6 +109,7 @@ public class ConsultasParadas {
                  aux.put("calle", rs.getString("calle"));
                  aux.put("nro_puerta", Integer.toString(rs.getInt("nro_puerta")));
                  aux.put("hora", rs.getString("hora"));
+                 result.add(aux);
                  
              }
               rs.close();
