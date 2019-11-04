@@ -127,4 +127,51 @@ public class ConsultasGrupos {
             ConnectionManager.closeConnection(connection);
         }
     }
+    
+    public Vector<Grupo> getAllGroups() {
+        Connection connection = ConnectionManager.getConnection();
+        Vector<Grupo> grupos = new Vector<Grupo>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("select * from grupos");
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                grupos.add(new Grupo(rs.getString("nombre"),rs.getBoolean("privado"), rs.getString("admin"), rs.getInt("estado")));
+                grupos.get(grupos.size()-1).setIdGroup(rs.getInt("codigo_grupo"));
+            }
+            
+            rs.close();
+            statement.close();
+
+            return grupos;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
+    public int insertarUsuarioenGrupo(Grupo group, String user) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
+            
+            PreparedStatement statement2 = connection.prepareStatement("insert into grupo_usuario(grupo,usuario,estado)"
+                    + " values(?,?,1)", Statement.RETURN_GENERATED_KEYS);
+            statement2.setInt(1, group.idGrupo);
+            statement2.setString(2, user);
+            statement2.executeUpdate();
+
+            return 1;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return -1;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
 }

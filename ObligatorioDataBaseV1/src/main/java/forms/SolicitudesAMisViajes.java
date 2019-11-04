@@ -5,31 +5,27 @@
  */
 package forms;
 
-import Data.Classes.*;
-import DataBase.Queries.ConsultasGrupos;
-import DataBase.Queries.ConsultasParadas;
+import Data.Classes.Participacion;
+import Data.Classes.Usuario;
 import DataBase.Queries.ConsultasParticipaciones;
-import DataBase.Queries.ConsultasUbicaciones;
-import DataBase.Queries.ConsultasViajes;
-import java.sql.Time;
 import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
-/**s
+/**
  *
  * @author Faivel
  */
-public class MisSolicitudes extends javax.swing.JFrame {
-    JFrame parentForm;
+public class SolicitudesAMisViajes extends javax.swing.JFrame {
+    JFrame parentFrame;
     Usuario user;
     DefaultTableModel model;
     java.util.List<Participacion>  solicitudes;
     /**
-     * Creates new form MisSolicitudes
+     * Creates new form SolicitudesAMisViajes
      */
-    public MisSolicitudes(JFrame parent, Usuario user) {
-        this.parentForm = parent;
+    public SolicitudesAMisViajes(JFrame parent, Usuario user) {
+        this.parentFrame = parent;
         this.user = user;
         initComponents();
         this.setVisible(true);
@@ -52,32 +48,22 @@ public class MisSolicitudes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
         tblSolicitudes = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        btnacept = new javax.swing.JButton();
+        btnreject = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowStateListener(new java.awt.event.WindowStateListener() {
+            public void windowStateChanged(java.awt.event.WindowEvent evt) {
+                formWindowStateChanged(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
-            }
-        });
-
-        jButton1.setText("Volver");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Solicitudes a tus viajes");
-
-        jButton2.setText("Cancelar Solicitud");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
             }
         });
 
@@ -92,54 +78,79 @@ public class MisSolicitudes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(tblSolicitudes);
+        jScrollPane1.setViewportView(tblSolicitudes);
+
+        jLabel3.setText("Viajes Publicados en Grupos Seleccionado");
+
+        btnacept.setText("Aceptar");
+        btnacept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnaceptActionPerformed(evt);
+            }
+        });
+
+        btnreject.setText("Rechazar");
+        btnreject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnrejectActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Volver");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(410, 410, 410))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(364, 364, 364)
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(347, 347, 347)
+                        .addComponent(btnacept)
+                        .addGap(47, 47, 47)
+                        .addComponent(btnreject))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(447, 447, 447)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(51, Short.MAX_VALUE))
+                        .addComponent(jButton1)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnacept)
+                    .addComponent(btnreject))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap())
+                .addGap(9, 9, 9))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.parentForm.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void formWindowStateChanged(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowStateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         ConsultasParticipaciones con_part = new ConsultasParticipaciones();
-        this.solicitudes = con_part.getParticipacionesUsuario(user.mail);
+        this.solicitudes = con_part.getSolicitudesAMisViajes(user.mail);
         if (solicitudes != null){
             for (Participacion p : solicitudes) {
                 Vector row = new Vector();
@@ -154,14 +165,28 @@ public class MisSolicitudes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnaceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnaceptActionPerformed
+        String mail = user.mail;
+        int parada = (int)tblSolicitudes.getModel().getValueAt(tblSolicitudes.getSelectedRow(), 0);
+        int new_estado = 1;
+        int viaje = (int)tblSolicitudes.getModel().getValueAt(tblSolicitudes.getSelectedRow(), 1);
+        ConsultasParticipaciones con_part = new ConsultasParticipaciones();
+        con_part.updateEstadoParticipacion(mail, parada, new_estado, viaje);
+    }//GEN-LAST:event_btnaceptActionPerformed
+
+    private void btnrejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrejectActionPerformed
         String mail = user.mail;
         int parada = (int)tblSolicitudes.getModel().getValueAt(tblSolicitudes.getSelectedRow(), 0);
         int new_estado = -1;
         int viaje = (int)tblSolicitudes.getModel().getValueAt(tblSolicitudes.getSelectedRow(), 1);
         ConsultasParticipaciones con_part = new ConsultasParticipaciones();
         con_part.updateEstadoParticipacion(mail, parada, new_estado, viaje);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnrejectActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.parentFrame.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -180,29 +205,30 @@ public class MisSolicitudes extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MisSolicitudes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolicitudesAMisViajes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MisSolicitudes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolicitudesAMisViajes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MisSolicitudes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolicitudesAMisViajes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MisSolicitudes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SolicitudesAMisViajes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
-//                new MisSolicitudes().setVisible(true);
+//                new SolicitudesAMisViajes().setVisible(true);
 //            }
 //        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnacept;
+    private javax.swing.JButton btnreject;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblSolicitudes;
     // End of variables declaration//GEN-END:variables
 }

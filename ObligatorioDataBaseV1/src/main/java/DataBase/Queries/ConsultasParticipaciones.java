@@ -118,4 +118,38 @@ v
         }
     }
     
+    public List<Participacion> getSolicitudesAMisViajes(String userMail) {
+        Connection connection = ConnectionManager.getConnection();
+        ArrayList<Participacion> participaciones = new ArrayList<>();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("select distinct part.parada as parada, part.solicitante as mail_soli, part.estado as estado, v.id_viaje as viajeid, v.conductor as conductor, u.calle as calle, u.nro_puerta as numero\n" +
+                "from participaciones part\n" +
+                "join paradas para on part.parada = para.num_parada\n" +
+                "join ubicaciones u on para.ubicacion = u.id_ubicacion\n" +
+                "join viajes v on v.id_viaje = part.viaje\n" +
+                "where part.estado = 0 and v.conductor = ?");
+            statement.setString(1, userMail);
+            
+            ResultSet rs = statement.executeQuery();
+            while ( rs.next() )
+            {
+                participaciones.add(new Participacion(rs.getInt("parada"), rs.getString("mail_soli"), rs.getInt("viajeid"), rs.getInt("estado")));
+                participaciones.get(participaciones.size()-1).setUbicacion(rs.getString("calle"), rs.getInt("numero"));
+                participaciones.get(participaciones.size()-1).setConductor(rs.getString("conductor"));
+            }
+            
+            rs.close();
+            statement.close();
+
+            return participaciones;
+
+        } catch (SQLException sqle) {
+            System.out.println("Error: " + sqle);
+            return null;
+        } finally {
+            ConnectionManager.closeConnection(connection);
+        }
+    }
+    
 }
