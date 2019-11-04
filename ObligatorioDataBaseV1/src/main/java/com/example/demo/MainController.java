@@ -27,8 +27,11 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Vector;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -174,7 +177,7 @@ public class MainController {
         return manager.cambiarEstadoGrupoUsuario(grupo,usuario,estado);
     }
     
-    @PatchMapping("/CambiarEstadoPersona")
+    @PatchMapping("/CambiarEstadoUsuario")
     public boolean CambiarEstadoPersona(@RequestBody Map<String, String> body) {
        
         ConsultasUsuarios manager = new ConsultasUsuarios();
@@ -192,5 +195,72 @@ public class MainController {
         int estado = Integer.parseInt(body.get("estado"));
        
         return manager.cambiarEstado(grupo,estado);
+    }
+    
+    @GetMapping("/ObtenerGruposDeUsuario")
+    public Vector<Grupo> getUserGroups(@RequestBody Map<String, String> body){
+        ConsultasGrupos manager = new ConsultasGrupos();
+        String usuario = body.get("mail");
+        return manager.getUserGroups(usuario);
+    }
+    
+    @GetMapping("/ObtenerParada")
+    public Parada buscarParada(@RequestBody Map<String, String> body){
+        ConsultasParadas manager = new ConsultasParadas();
+        int ubic = Integer.parseInt(body.get("ubicacion"));
+        Time hora = Time.valueOf(body.get("hora"));
+        return manager.buscarParada(ubic, hora);
+    }
+    
+    @GetMapping("/ObtenerParticipacionesUsuario")
+    public List<Participacion> getParticipacionesUsuario(@RequestBody Map<String, String> body){
+        ConsultasParticipaciones manager = new ConsultasParticipaciones();
+        String mail = body.get("usuario");
+        return manager.getParticipacionesUsuario(mail);
+    }
+    
+    @GetMapping("/BuscarRuta")
+    public RutaRaw buscarRuta(@RequestBody Map<String, String> body){
+        ConsultasRutas manager = new ConsultasRutas();
+        int origen = Integer.parseInt(body.get("idOrigen"));
+        int destino = Integer.parseInt(body.get("idDestino"));
+        return manager.buscarRuta(origen,destino);
+    }
+    
+    @GetMapping("/BuscarUbicacion")
+    public Ubicacion buscarUbicacion(@RequestBody Map<String, String> body){
+        ConsultasUbicaciones manager = new ConsultasUbicaciones();
+        String calle = body.get("calle").toUpperCase();
+        int nroPuerta = Integer.parseInt(body.get("nroPuerta"));
+        return manager.buscarUbicacion(calle, nroPuerta);
+    }
+    
+    @GetMapping("/ObtenerUsuario")
+    public Usuario getUser(@RequestBody Map<String, String> body){
+        ConsultasUsuarios manager = new ConsultasUsuarios();
+        String mail = body.get("mail");
+        String password = body.get("password");
+        return manager.getUser(mail, password);
+    }
+    
+    @GetMapping("/ObtenerContactosDeUsuario")
+    public List<String> getUserContacts(@RequestBody Map<String, String> body){
+        ConsultasUsuarios manager = new ConsultasUsuarios();
+        String mail = body.get("mail");
+        return manager.getUserContacts(mail);
+    }
+    
+    @GetMapping("/ObtenerIdsGruposDeUsuarios")
+    public List<Integer> getUserIdGroups(@RequestBody Map<String, String> body){
+        ConsultasUsuarios manager = new ConsultasUsuarios();
+        String mail = body.get("mail");
+        return manager.getUserGroups(mail);
+    }
+    
+    @GetMapping("/ObtenerViajesDeGrupo")
+    public List<Viaje> getViajesGroups(@RequestBody Map<String, String> body){
+        ConsultasViajes manager = new ConsultasViajes();     
+        int grupo = Integer.parseInt(body.get("grupo"));
+        return manager.getViajesGroups(grupo);
     }
 }
